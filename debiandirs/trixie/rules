@@ -1,6 +1,14 @@
 #!/usr/bin/make -f
 
 export DH_VERBOSE = 1
+export DEB_CFLAGS_MAINT_APPEND = -g0
+export DEB_CXXFLAGS_MAINT_APPEND = -g0
+
+PARALLEL_OPTION := $(filter parallel=%,$(DEB_BUILD_OPTIONS))
+PARALLEL_JOBS := $(patsubst parallel=%,%,$(lastword $(PARALLEL_OPTION)))
+ifeq ($(PARALLEL_JOBS),)
+PARALLEL_JOBS := $(shell nproc)
+endif
 
 %:
 	dh $@
@@ -9,7 +17,7 @@ override_dh_auto_configure:
 	PYTHON=python3.13 ./configure --prefix=/usr --shared-openssl --shared-zlib --with-intl=small-icu
 
 override_dh_auto_build:
-	$(MAKE) -j$(shell nproc)
+	$(MAKE) -j$(PARALLEL_JOBS)
 
 override_dh_auto_test:
 	# Upstream test-doc needs eslint dev lockfiles not in release tarball.
@@ -23,3 +31,15 @@ override_dh_auto_install:
 	if [ -x debian/nodejs/usr/bin/node ] && [ ! -e debian/nodejs/usr/bin/nodejs ]; then \
 		ln -s node debian/nodejs/usr/bin/nodejs; \
 	fi
+
+override_dh_fixperms:
+	dh_fixperms
+	for script in \
+		debian/nodejs/usr/bin/npm \
+		debian/nodejs/usr/bin/npx \
+		debian/nodejs/usr/bin/corepack \
+		debian/nodejs/usr/lib/node_modules/npm/bin/npm-cli.js \
+		debian/nodejs/usr/lib/node_modules/npm/bin/npx-cli.js \
+		debian/nodejs/usr/lib/node_modules/corepack/dist/corepack.js; do \
+		if [ -e "$$script" ]; then chmod 0755 "$$script"; fi; \
+	done
