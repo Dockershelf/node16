@@ -1,1 +1,2 @@
 fix-v8-cstdint.patch
+fix-worker-inspector-cstdint.patch

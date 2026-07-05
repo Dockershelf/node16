@@ -1,0 +1,17 @@
+Description: Include cstdint for uint64_t in worker inspector
+ Newer libstdc++/compiler combinations no longer expose uint64_t
+ transitively through the existing worker inspector includes. Include
+ cstdint directly before using uint64_t in worker_inspector.h.
+Author: Dockershelf Maintainers <41898282+github-actions[bot]@users.noreply.github.com>
+Forwarded: no
+
+--- a/src/inspector/worker_inspector.h
++++ b/src/inspector/worker_inspector.h
+@@ -5,6 +5,7 @@
+ #error("This header can only be used when inspector is enabled")
+ #endif
+ 
++#include <cstdint>
+ #include <memory>
+ #include <string>
+ #include <unordered_map>
