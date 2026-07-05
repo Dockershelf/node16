@@ -1,0 +1,43 @@
+Description: Include complete object headers before <functional> in code-stub-assembler
+ GCC 15's libstdc++ requires types to be complete when std::is_convertible
+ is instantiated. tnode.h's is_subtype uses std::is_convertible<T, Object>,
+ and code-stub-assembler.h includes <functional> (which pulls in type_traits
+ instantiations) before the object headers that complete types like Cell,
+ JSGeneratorObject, and JSPromise. Move cell.h, js-generator.h, and
+ js-promise.h above <functional> so the types are complete when the
+ template traits are evaluated.
+Author: Dockershelf Maintainers <41898282+github-actions[bot]@users.noreply.github.com>
+Forwarded: no
+
+--- a/deps/v8/src/codegen/code-stub-assembler.h
++++ b/deps/v8/src/codegen/code-stub-assembler.h
+@@ -5,8 +5,13 @@
+ #ifndef V8_CODEGEN_CODE_STUB_ASSEMBLER_H_
+ #define V8_CODEGEN_CODE_STUB_ASSEMBLER_H_
+ 
++#include "src/objects/cell.h"
++#include "src/objects/js-generator.h"
++#include "src/objects/js-promise.h"
+ #include <functional>
+ 
+ #include "src/base/macros.h"
+ #include "src/codegen/bailout-reason.h"
+ #include "src/common/external-pointer.h"
+ #include "src/common/globals.h"
+ #include "src/common/message-template.h"
+ #include "src/compiler/code-assembler.h"
+ #include "src/objects/arguments.h"
+ #include "src/objects/bigint.h"
+-#include "src/objects/cell.h"
+ #include "src/objects/feedback-vector.h"
+ #include "src/objects/js-function.h"
+-#include "src/objects/js-generator.h"
+-#include "src/objects/js-promise.h"
+ #include "src/objects/objects.h"
+ #include "src/objects/promise.h"
+ #include "src/objects/shared-function-info.h"
+ #include "src/objects/smi.h"
+ #include "src/objects/swiss-name-dictionary.h"
+ #include "src/objects/tagged-index.h"
+ #include "src/roots/roots.h"
+ #include "torque-generated/exported-macros-assembler.h"
