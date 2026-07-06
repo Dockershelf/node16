@@ -1,0 +1,16 @@
+Description: Include cstdint for uint8_t in cppgc/heap-statistics.h
+ Newer libstdc++/compiler combinations no longer expose uint8_t
+ transitively through the existing includes. Include cstdint directly.
+Author: Dockershelf Maintainers <41898282+github-actions[bot]@users.noreply.github.com>
+Forwarded: no
+
+--- a/deps/v8/include/cppgc/heap-statistics.h
++++ b/deps/v8/include/cppgc/heap-statistics.h
+@@ -8,6 +8,7 @@
+ #define INCLUDE_CPPGC_HEAP_STATISTICS_H_
+ 
+ #include <memory>
++#include <cstdint>
+ #include <string>
+ #include <vector>
+ 

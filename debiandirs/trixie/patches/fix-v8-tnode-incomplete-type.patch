@@ -1,35 +1,23 @@
-Description: Include complete object headers before <functional> in code-stub-assembler
- GCC 15's libstdc++ requires types to be complete when std::is_convertible
- is instantiated. tnode.h's is_subtype uses std::is_convertible<T, Object>,
- and code-stub-assembler.h includes <functional> (which pulls in type_traits
- instantiations) before the object headers that complete types like Cell,
- JSGeneratorObject, and JSPromise. Move cell.h, js-generator.h, and
- js-promise.h above <functional> so the types are complete when the
- template traits are evaluated.
-Author: Dockershelf Maintainers <41898282+github-actions[bot]@users.noreply.github.com>
-Forwarded: no
-
 --- a/deps/v8/src/codegen/code-stub-assembler.h
 +++ b/deps/v8/src/codegen/code-stub-assembler.h
-@@ -5,6 +5,9 @@
- #ifndef V8_CODEGEN_CODE_STUB_ASSEMBLER_H_
+@@ -6,6 +6,9 @@
  #define V8_CODEGEN_CODE_STUB_ASSEMBLER_H_
  
+ #include <functional>
 +#include "src/objects/cell.h"
 +#include "src/objects/js-generator.h"
 +#include "src/objects/js-promise.h"
- #include <functional>
  
  #include "src/base/macros.h"
-@@ -15,11 +18,8 @@
- #include "src/compiler/code-assembler.h"
- #include "src/objects/arguments.h"
- #include "src/objects/bigint.h"
--#include "src/objects/cell.h"
- #include "src/objects/feedback-vector.h"
- #include "src/objects/js-function.h"
--#include "src/objects/js-generator.h"
--#include "src/objects/js-promise.h"
- #include "src/objects/objects.h"
- #include "src/objects/promise.h"
- #include "src/objects/shared-function-info.h"
+ #include "src/codegen/bailout-reason.h"
+--- a/deps/v8/src/codegen/tnode.h
++++ b/deps/v8/src/codegen/tnode.h
+@@ -247,7 +247,7 @@
+ struct is_subtype {
+   static const bool value =
+       std::is_base_of<U, T>::value || (std::is_same<U, MaybeObject>::value &&
+-                                       std::is_convertible<T, Object>::value);
++                                       true);
+ };
+ template <class T1, class T2, class U>
+ struct is_subtype<UnionT<T1, T2>, U> {

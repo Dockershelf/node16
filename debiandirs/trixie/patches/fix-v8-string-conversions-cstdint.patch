@@ -1,0 +1,16 @@
+Description: Include cstdint for uint16_t in v8-string-conversions.h
+ Newer libstdc++/compiler combinations no longer expose uint16_t
+ transitively through the existing includes. Include cstdint directly.
+Author: Dockershelf Maintainers <41898282+github-actions[bot]@users.noreply.github.com>
+Forwarded: no
+
+--- a/deps/v8/src/inspector/v8-string-conversions.h
++++ b/deps/v8/src/inspector/v8-string-conversions.h
+@@ -7,6 +7,7 @@
+ #define V8_INSPECTOR_V8_STRING_CONVERSIONS_H_
+ 
+ #include <string>
++#include <cstdint>
+ 
+ // Conversion routines between UT8 and UTF16, used by string-16.{h,cc}. You may
+ // want to use string-16.h directly rather than these.
