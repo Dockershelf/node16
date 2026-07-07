@@ -1,4 +1,4 @@
-nodejs (16.0.0-1+trixie1) trixie; urgency=medium
+nodejs16 (16.0.0-1+trixie1) trixie; urgency=medium
 
   * Initial Dockershelf packaging for Node.js 16.
 
