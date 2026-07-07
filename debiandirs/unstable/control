@@ -1,4 +1,4 @@
-Source: nodejs16
+Source: nodejs-16
 Section: web
 Priority: optional
 Maintainer: Luis Alejandro Martínez Faneyth <luis@luisalejandro.org>
@@ -14,7 +14,7 @@ Homepage: https://nodejs.org
 Vcs-Browser: https://github.com/Dockershelf/node16
 Vcs-Git: https://github.com/Dockershelf/node16.git
 
-Package: nodejs16
+Package: nodejs-16
 Architecture: any
 Multi-Arch: allowed
 Depends: ${shlibs:Depends},

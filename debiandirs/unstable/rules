@@ -27,19 +27,19 @@ override_dh_dwz:
 	@echo "Skipping dwz; node binary exceeds dwz DIE limit."
 
 override_dh_auto_install:
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/nodejs16
-	if [ -x debian/nodejs16/usr/bin/node ] && [ ! -e debian/nodejs16/usr/bin/nodejs ]; then \
-		ln -s node debian/nodejs16/usr/bin/nodejs; \
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/nodejs-16
+	if [ -x debian/nodejs-16/usr/bin/node ] && [ ! -e debian/nodejs-16/usr/bin/nodejs ]; then \
+		ln -s node debian/nodejs-16/usr/bin/nodejs; \
 	fi
 
 override_dh_fixperms:
 	dh_fixperms
 	for script in \
-		debian/nodejs16/usr/bin/npm \
-		debian/nodejs16/usr/bin/npx \
-		debian/nodejs16/usr/bin/corepack \
-		debian/nodejs16/usr/lib/node_modules/npm/bin/npm-cli.js \
-		debian/nodejs16/usr/lib/node_modules/npm/bin/npx-cli.js \
-		debian/nodejs16/usr/lib/node_modules/corepack/dist/corepack.js; do \
+		debian/nodejs-16/usr/bin/npm \
+		debian/nodejs-16/usr/bin/npx \
+		debian/nodejs-16/usr/bin/corepack \
+		debian/nodejs-16/usr/lib/node_modules/npm/bin/npm-cli.js \
+		debian/nodejs-16/usr/lib/node_modules/npm/bin/npx-cli.js \
+		debian/nodejs-16/usr/lib/node_modules/corepack/dist/corepack.js; do \
 		if [ -e "$$script" ]; then chmod 0755 "$$script"; fi; \
 	done
