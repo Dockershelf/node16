@@ -1,5 +1,16 @@
 # node16
 
+> **⚠️ ARCHIVED: This repository has been retired**
+> 
+> Node.js 16 reached End of Life and is no longer receiving updates.
+> 
+> - **No new builds** will be published
+> - **Existing packages** remain available in the APT repository
+> - **Security updates** are no longer provided
+> - **For current versions**, see: https://github.com/Dockershelf/dockershelf-pipeline
+> 
+> Retired: 2026-07-07
+
 Debian packaging for Node.js 16: monolithic `nodejs` replacement packages used by the [Dockershelf node-pipeline](../node-pipeline).
 
 ## Supported Debian suites
